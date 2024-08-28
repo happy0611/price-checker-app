@@ -28,6 +28,12 @@
   color: #61dafb;
 }
 
+.ui.message {
+  top: 0!important;
+  margin-top: 10px;
+  color: #00b5ad;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
