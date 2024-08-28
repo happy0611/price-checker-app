@@ -11,7 +11,7 @@ const App: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
 
   useEffect(() => {
-    fetch('/books')
+    fetch('http://127.0.0.1:5000/books')
       .then((response) => {
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
