@@ -52,7 +52,12 @@ const App: React.FC = () => {
   const openSettings = () => setSettingsOpen(true);
   const closeSettings = () => setSettingsOpen(false);
 
-  const handleSaveSettings = async (period: number, interval: number, image: string, alt_text: string, price: string) => {
+  const handleSaveSettings = async (period: number, interval: number) => {
+    
+    const image = books[0].image_url;
+    const alt_text = books[0].alt_text;
+    const price = books[0].price;
+    
     setTrackingPeriod(period);
     setUpdateInterval(interval);
 
