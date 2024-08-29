@@ -19,6 +19,7 @@ amazonurl = "https://www.amazon.co.jp/gp/bestsellers/books/ref=zg_bs_books_sm"
 
 # Firebase Admin SDK の初期化
 cred = credentials.Certificate('/Users/souma0826manu/Desktop/hibikiLab/React学習/Otoya/price-checker-app/frontend/src/price-checker-app-34a47-firebase-adminsdk-3s43g-a30c4e7b57.json')  # サービスアカウントキーのパス
+# cred = credentials.Certificate('/mnt/c/Users/user/Documents/Otoya/price-checker-app/frontend/src/price-checker-app-34a47-firebase-adminsdk-3s43g-a30c4e7b57.json')  # サービスアカウントキーのパス
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -88,7 +89,7 @@ def save_settings():
         image = data.get('image')
         alt_text = data.get('alt_text')
         price = data.get('price')
-        start_date = datetime.datetime.now()
+        start_date = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
 
         if period is None or interval is None or not image or not alt_text or not price:
             return jsonify({'error': 'Invalid data'}), 400

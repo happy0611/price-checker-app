@@ -3,8 +3,8 @@ import './App.css';
 import Header from './components/Header';
 import Settings from './components/Settings';
 import { fetchTrackedItems, } from './firebaseFunctions'; // Firebaseからのデータ取得関数をインポート
-import { doc, setDoc } from "firebase/firestore";
-import { db } from './firebase'; // 先ほど作成したfirebase.tsをインポート
+// import { doc, setDoc } from "firebase/firestore";
+// import { db } from './firebase'; // 先ほど作成したfirebase.tsをインポート
 
 interface Book {
   alt_text: string;
@@ -26,6 +26,7 @@ const App: React.FC = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [trackedItems, setTrackedItems] = useState<TrackedItem[]>([]);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Book | null>(null); // Book型に変更
   const [trackingPeriod, setTrackingPeriod] = useState<number>(7);
   const [updateInterval, setUpdateInterval] = useState<number>(5);
   const [notification, setNotification] = useState<string | null>(null);
@@ -49,14 +50,21 @@ const App: React.FC = () => {
       .catch(error => console.error('Error fetching tracked items:', error));
   }, []);
 
+  const handleCardClick = (book: Book) => {
+    setSelectedItem(book); // クリックされたカードのBookオブジェクトをselectedItemにセット
+    openSettings();
+  };
+
   const openSettings = () => setSettingsOpen(true);
   const closeSettings = () => setSettingsOpen(false);
 
   const handleSaveSettings = async (period: number, interval: number) => {
-    
-    const image = books[0].image_url;
-    const alt_text = books[0].alt_text;
-    const price = books[0].price;
+    if (!selectedItem) return; // selectedItemがnullでないことを確認
+
+    const { image_url, alt_text, price } = selectedItem;
+    // const image = books[0].image_url;
+    // const alt_text = books[0].alt_text;
+    // const price = books[0].price;
     
     setTrackingPeriod(period);
     setUpdateInterval(interval);
@@ -70,7 +78,7 @@ const App: React.FC = () => {
             body: JSON.stringify({
                 period: period,
                 interval: interval,
-                image: image,
+                image: image_url,
                 alt_text: alt_text,
                 price: price
             }),
@@ -132,7 +140,7 @@ const App: React.FC = () => {
         <div className="ui three column grid">
           {books.map((book, index) => (
             <div key={index} className="column">
-              <div className="ui card" onClick={openSettings}>
+              <div className="ui card" onClick={() => handleCardClick(book)}>
                 <div className="image">
                   <img src={book.image_url} alt={book.alt_text} />
                 </div>
