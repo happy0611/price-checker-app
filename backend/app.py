@@ -84,6 +84,7 @@ def save_settings():
         if not data:
             return jsonify({'error': 'No data provided'}), 400
 
+        money = data.get('money')
         period = data.get('period')
         interval = data.get('interval')
         image = data.get('image')
@@ -91,12 +92,14 @@ def save_settings():
         price = data.get('price')
         start_date = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
 
-        if period is None or interval is None or not image or not alt_text or not price:
+        if money is None or period is None or interval is None or not image or not alt_text or not price:
             return jsonify({'error': 'Invalid data'}), 400
         
         remaining_days = period  # periodから残りの日数を計算
 
-        print(f'Settings saved: period={period}, interval={interval}, image={image}, alt_text={alt_text}, price={price}')
+        print(f'Settings saved: money={money}, period={period}, interval={interval}, image={image}, alt_text={alt_text}, price={price}')
+
+        # TODO: 同じimage_urlを持つドキュメントが既に存在する場合は古いドキュメントを削除し，新しいドキュメントを追加する
 
         # Firestore に設定を保存
         settings_ref = db.collection('tracked_items').document()  # ドキュメントIDは自動生成
@@ -104,13 +107,15 @@ def save_settings():
             'start_date': start_date,
             'remaining_days': remaining_days,
             'interval': interval,
+            'hope_money': money,
             'image': image,
             'alt_text': alt_text,
-            'price': price
+            'price': price,
         })
 
         return jsonify({
             'message': 'Settings saved successfully',
+            'hope_money': money,
             'period': period,
             'interval': interval,
             'remaining_days': remaining_days,
