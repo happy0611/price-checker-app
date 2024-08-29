@@ -1,16 +1,15 @@
-// src/firebaseConfig.ts
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 
-// Firebase configuration
+// Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID",
-  measurementId: "YOUR_MEASUREMENT_ID"
+  apiKey: "AIzaSyDd-eHy0qW9BmPlGdvbl35rydQS_MmKv8s",
+  authDomain: "price-checker-app-34a47.firebaseapp.com",
+  projectId: "price-checker-app-34a47",
+  storageBucket: "price-checker-app-34a47.appspot.com",
+  messagingSenderId: "1083427229045",
+  appId: "1:1083427229045:web:667c6209c99cfc51ee973c",
+  measurementId: "G-0TJ7ZQH09F"
 };
 
 // Initialize Firebase
