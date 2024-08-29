@@ -18,8 +18,8 @@ CORS(app)
 amazonurl = "https://www.amazon.co.jp/gp/bestsellers/books/ref=zg_bs_books_sm"
 
 # Firebase Admin SDK の初期化
-cred = credentials.Certificate('/Users/souma0826manu/Desktop/hibikiLab/React学習/Otoya/price-checker-app/frontend/src/price-checker-app-34a47-firebase-adminsdk-3s43g-a30c4e7b57.json')  # サービスアカウントキーのパス
-# cred = credentials.Certificate('/mnt/c/Users/user/Documents/Otoya/price-checker-app/frontend/src/price-checker-app-34a47-firebase-adminsdk-3s43g-a30c4e7b57.json')  # サービスアカウントキーのパス
+# cred = credentials.Certificate('/Users/souma0826manu/Desktop/hibikiLab/React学習/Otoya/price-checker-app/frontend/src/price-checker-app-34a47-firebase-adminsdk-3s43g-a30c4e7b57.json')  # サービスアカウントキーのパス
+cred = credentials.Certificate('/mnt/c/Users/user/Documents/Otoya/price-checker-app/frontend/src/price-checker-app-34a47-firebase-adminsdk-3s43g-a30c4e7b57.json')  # サービスアカウントキーのパス
 firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -84,6 +84,7 @@ def save_settings():
         if not data:
             return jsonify({'error': 'No data provided'}), 400
 
+        money = data.get("money")
         period = data.get('period')
         interval = data.get('interval')
         image = data.get('image')
@@ -91,7 +92,7 @@ def save_settings():
         price = data.get('price')
         start_date = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=9)))
 
-        if period is None or interval is None or not image or not alt_text or not price:
+        if money is None or period is None or interval is None or not image or not alt_text or not price:
             return jsonify({'error': 'Invalid data'}), 400
         
         remaining_days = period  # periodから残りの日数を計算
@@ -104,6 +105,7 @@ def save_settings():
             'start_date': start_date,
             'remaining_days': remaining_days,
             'interval': interval,
+            "hope_price": money,
             'image': image,
             'alt_text': alt_text,
             'price': price
@@ -111,6 +113,7 @@ def save_settings():
 
         return jsonify({
             'message': 'Settings saved successfully',
+            "hope_money": money,
             'period': period,
             'interval': interval,
             'remaining_days': remaining_days,
